@@ -3,49 +3,29 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import './index.css';
 
-// stateless
-function FormattedDate(props) {
-  return <h2>It is {props.date.toLocaleTimeString()}.</h2>;
-}
-
-// stateful
-class Clock extends React.Component {
+class Toggle extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {isToggleOn: true};
+    this.handleClick = this.handleClick.bind(this);
+  }
 
-    this.state = {
-      date: new Date()
-    };
+  handleClick() {
+    this.setState(prevState => ({
+      isToggleOn: !prevState.isToggleOn
+    }));
   }
 
   render() {
     return (
-      <div>
-        <h1>Hello, World!</h1>
-        <FormattedDate date={this.state.date} />
-      </div>
+      <button onClick={this.handleClick}>
+        {this.state.isToggleOn ? 'ON' : 'OFF'}
+      </button>
     );
-  }
-
-  componentDidMount() {
-    this.timerID = setInterval(
-      () => this.tick(),
-      1000
-    );
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.timerID);
-  }
-
-  tick() {
-    this.setState({
-      date: new Date()
-    });
   }
 }
 
 ReactDOM.render(
-  <Clock />,
+  <Toggle />,
   document.getElementById('root')
 );
